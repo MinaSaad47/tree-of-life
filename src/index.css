@@ -109,11 +109,9 @@ button {
 .app {
   width: 100vw;
   height: 100vh;
-  display: grid;
-  grid-template-columns: clamp(112px, 9vw, 142px) minmax(0, 1fr);
-  grid-template-areas: "tray tree";
-  gap: clamp(5px, 0.7vw, 10px);
-  padding: clamp(10px, 1.25vw, 20px);
+  position: relative;
+  display: block;
+  padding: 0;
   background:
     radial-gradient(circle at 50% 76%, rgba(84, 146, 90, 0.16), transparent 28%),
     linear-gradient(180deg, #b9e6ff 0%, #ecf8ff 58%, #d4eec4 100%);
@@ -150,33 +148,42 @@ button {
 }
 
 .medallion-tray {
-  grid-area: tray;
+  position: fixed;
   direction: rtl;
-  align-self: center;
-  justify-self: stretch;
-  max-height: min(86vh, 760px);
+  inset-inline-start: clamp(10px, 1.3vw, 22px);
+  top: 50%;
+  z-index: 18;
+  width: clamp(174px, 14vw, 226px);
+  max-height: min(92vh, 820px);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.42);
-  border-radius: 28px;
-  background: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 18px 36px rgba(49, 64, 50, 0.1);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 42px rgba(49, 64, 50, 0.12);
   backdrop-filter: blur(18px);
-  padding: 10px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  transform: translateY(-50%);
 }
 
 .sidebar--right {
   display: none;
 }
 
-.floating-reset-button {
+.floating-action-buttons {
   position: fixed;
   direction: rtl;
   top: clamp(12px, 1.4vw, 22px);
   inset-inline-end: clamp(12px, 1.4vw, 22px);
   z-index: 20;
+  display: flex;
+  gap: 9px;
+  align-items: center;
+}
+
+.floating-control-button {
   min-height: 46px;
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 999px;
@@ -191,8 +198,13 @@ button {
   transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
 }
 
-.floating-reset-button:hover:not(:disabled),
-.floating-reset-button:focus-visible:not(:disabled) {
+.floating-control-button--reset {
+  background: rgba(133, 79, 43, 0.86);
+  box-shadow: 0 14px 28px rgba(109, 71, 42, 0.22);
+}
+
+.floating-control-button:hover:not(:disabled),
+.floating-control-button:focus-visible:not(:disabled) {
   background: rgba(39, 98, 63, 0.94);
   box-shadow: 0 18px 34px rgba(47, 113, 76, 0.32);
   transform: translateY(-1px);
@@ -200,7 +212,13 @@ button {
   outline-offset: 3px;
 }
 
-.floating-reset-button:disabled {
+.floating-control-button--reset:hover:not(:disabled),
+.floating-control-button--reset:focus-visible:not(:disabled) {
+  background: rgba(120, 68, 36, 0.94);
+  box-shadow: 0 18px 34px rgba(109, 71, 42, 0.3);
+}
+
+.floating-control-button:disabled {
   opacity: 0.55;
   cursor: default;
 }
@@ -208,7 +226,7 @@ button {
 .drag-preview {
   position: fixed;
   z-index: 30;
-  width: clamp(58px, 5.8vw, 82px);
+  width: clamp(86px, 7.6vw, 116px);
   aspect-ratio: 1;
   pointer-events: none;
   transform: translate(-50%, -50%);
@@ -277,7 +295,7 @@ button {
 .library-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px 8px;
+  gap: 12px 9px;
 }
 
 .medallion {
@@ -301,9 +319,9 @@ button {
   background: transparent;
   box-shadow: none;
   cursor: grab;
-  gap: 4px;
+  gap: 5px;
   min-height: 0;
-  padding: 3px 1px;
+  padding: 4px 1px;
 }
 
 .medallion:active {
@@ -325,16 +343,17 @@ button {
 }
 
 .medallion img {
-  width: clamp(48px, 4.6vw, 64px);
+  width: clamp(54px, 5vw, 72px);
   aspect-ratio: 1;
   border-radius: 50%;
   object-fit: cover;
+  overflow: hidden;
   border: 2px solid rgba(216, 168, 63, 0.9);
   box-shadow: 0 2px 8px rgba(74, 56, 24, 0.16);
 }
 
 .medallion-tray .medallion img {
-  width: clamp(46px, 4.2vw, 60px);
+  width: clamp(82px, 8vw, 112px);
   border: 3px solid rgba(255, 235, 164, 0.88);
   box-shadow: 0 8px 18px rgba(74, 56, 24, 0.14);
   transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
@@ -343,8 +362,8 @@ button {
 .medallion-tray .medallion:hover img,
 .medallion-tray .medallion.is-selected img {
   border-color: #fff3a7;
-  box-shadow: 0 0 0 4px rgba(255, 224, 138, 0.32), 0 0 24px rgba(255, 218, 93, 0.5);
-  transform: translateY(-1px) scale(1.04);
+  box-shadow: 0 0 0 4px rgba(255, 224, 138, 0.32), 0 0 28px rgba(255, 218, 93, 0.6);
+  transform: translateY(-3px) scale(1.25);
 }
 
 .medallion span {
@@ -357,7 +376,7 @@ button {
 
 .medallion-tray .medallion span {
   color: #263027;
-  font-size: clamp(0.62rem, 0.72vw, 0.78rem);
+  font-size: clamp(0.68rem, 0.76vw, 0.84rem);
   font-weight: 900;
   line-height: 1.12;
   text-align: center;
@@ -382,27 +401,29 @@ button {
 }
 
 .tree-stage {
-  grid-area: tree;
+  position: fixed;
+  inset: 0;
   direction: rtl;
-  height: 100%;
+  height: 100dvh;
   min-width: 0;
   display: grid;
   place-items: center;
+  overflow: hidden;
 }
 
 .tree-frame {
   position: relative;
-  width: min(100%, calc(94vh * 1.12));
-  height: min(94vh, calc(100vw * 0.78));
-  aspect-ratio: 1 / 1.08;
+  width: min(100vw, 100dvh);
+  height: min(100vw, 100dvh);
+  aspect-ratio: 1;
   overflow: visible;
-  border-radius: 8px;
+  border-radius: 0;
   isolation: isolate;
 }
 
 .environment-layer {
   position: absolute;
-  inset: -3% -5% -2%;
+  inset: -13% -34% -8%;
   z-index: 0;
   overflow: visible;
   pointer-events: none;
@@ -627,9 +648,14 @@ button {
   opacity: 1;
 }
 
+.tree-backdrop--creation_alive .tree-backdrop__image--creation.is-visible {
+  animation: treeAliveBreathe 6800ms ease-in-out infinite;
+}
+
 .tree-backdrop--fall_transition .tree-backdrop__image--creation {
   opacity: 0.24;
   filter: grayscale(0.8) sepia(0.18) brightness(0.82);
+  animation: treeFallDim 3000ms ease-out forwards;
 }
 
 .tree-backdrop--resurrection_transition .tree-backdrop__image--dead {
@@ -639,6 +665,7 @@ button {
 
 .tree-backdrop--redeemed_alive .tree-backdrop__image--redeemed {
   filter: saturate(1.06) brightness(1.03);
+  animation: redeemedTreeGlow 7600ms ease-in-out infinite;
 }
 
 .tree-overlay-svg {
@@ -659,13 +686,14 @@ button {
 
 .leaf-pad {
   position: absolute;
-  transform: translate(-50%, -50%) rotate(-8deg);
+  transform: translate(-50%, -50%) rotate(var(--leaf-rotate, 0deg));
   border-radius: 58% 42% 58% 42%;
   background:
-    radial-gradient(ellipse at 34% 34%, rgba(220, 244, 168, 0.78), transparent 44%),
-    radial-gradient(ellipse at 62% 46%, rgba(96, 156, 78, 0.72), rgba(57, 123, 69, 0.58) 68%, rgba(42, 96, 55, 0.04) 100%);
-  box-shadow: 0 8px 16px rgba(50, 109, 57, 0.12);
-  opacity: 0.58;
+    radial-gradient(ellipse at 50% 44%, transparent 0 42%, rgba(255, 250, 224, 0.24) 43% 54%, transparent 62%),
+    radial-gradient(ellipse at 30% 35%, rgba(221, 244, 164, 0.32), transparent 44%),
+    radial-gradient(ellipse at 64% 50%, rgba(85, 145, 73, 0.28), rgba(53, 117, 64, 0.2) 66%, transparent 100%);
+  box-shadow: 0 7px 14px rgba(50, 109, 57, 0.08);
+  opacity: 0.2;
   transition: opacity 900ms ease, background 900ms ease, filter 900ms ease, transform 900ms ease;
 }
 
@@ -676,7 +704,7 @@ button {
   inset: 15% 4% 17% 4%;
   border-radius: 58% 42% 58% 42%;
   background: inherit;
-  opacity: 0.76;
+  opacity: 0.44;
 }
 
 .leaf-pad::before {
@@ -691,19 +719,25 @@ button {
 .leaf-support-layer--dead_waiting .leaf-pad,
 .leaf-support-layer--resurrection_transition .leaf-pad {
   background:
-    radial-gradient(ellipse at 34% 34%, rgba(202, 174, 118, 0.62), transparent 44%),
-    radial-gradient(ellipse at 62% 46%, rgba(135, 103, 68, 0.58), rgba(97, 78, 57, 0.5) 70%, rgba(74, 61, 49, 0.04) 100%);
-  box-shadow: 0 8px 14px rgba(72, 59, 45, 0.08);
-  filter: saturate(0.76) brightness(0.9);
-  opacity: 0.46;
+    radial-gradient(ellipse at 50% 44%, transparent 0 42%, rgba(245, 235, 205, 0.28) 43% 54%, transparent 62%),
+    radial-gradient(ellipse at 34% 34%, rgba(214, 188, 137, 0.28), transparent 44%),
+    radial-gradient(ellipse at 62% 46%, rgba(150, 116, 77, 0.24), rgba(111, 88, 65, 0.18) 70%, transparent 100%);
+  box-shadow: 0 7px 12px rgba(72, 59, 45, 0.06);
+  filter: saturate(0.84) brightness(0.96);
+  opacity: 0.24;
 }
 
 .leaf-support-layer--redeemed_alive .leaf-pad {
   background:
-    radial-gradient(ellipse at 34% 34%, rgba(236, 255, 164, 0.82), transparent 43%),
-    radial-gradient(ellipse at 62% 46%, rgba(88, 185, 77, 0.78), rgba(48, 145, 72, 0.66) 68%, rgba(255, 218, 91, 0.06) 100%);
-  box-shadow: 0 0 0 4px rgba(255, 224, 138, 0.08), 0 12px 22px rgba(50, 109, 57, 0.16);
-  opacity: 0.72;
+    radial-gradient(ellipse at 50% 44%, transparent 0 42%, rgba(255, 244, 185, 0.3) 43% 54%, transparent 62%),
+    radial-gradient(ellipse at 34% 34%, rgba(236, 255, 164, 0.36), transparent 43%),
+    radial-gradient(ellipse at 62% 46%, rgba(88, 185, 77, 0.32), rgba(48, 145, 72, 0.24) 68%, transparent 100%);
+  box-shadow: 0 0 0 3px rgba(255, 224, 138, 0.06), 0 10px 18px rgba(50, 109, 57, 0.1);
+  opacity: 0.28;
+}
+
+.leaf-pad.is-activated {
+  animation: leafSeatWake 1050ms ease-out;
 }
 
 .svg-tree {
@@ -911,6 +945,10 @@ button {
   cursor: pointer;
 }
 
+.drop-zone--locked {
+  cursor: help;
+}
+
 .drop-zone:disabled {
   cursor: default;
 }
@@ -921,33 +959,51 @@ button {
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: rgba(255, 252, 237, 0.08);
-  border: 2px solid rgba(255, 249, 219, 0.82);
-  box-shadow: 0 0 0 1px rgba(116, 93, 49, 0.08), inset 0 0 18px rgba(255, 255, 255, 0.22);
-  transition: opacity 500ms ease, border-color 700ms ease, box-shadow 700ms ease, filter 700ms ease, background 700ms ease;
+  background: rgba(255, 251, 231, 0.28);
+  border: 2.5px solid rgba(255, 240, 178, 0.88);
+  box-shadow:
+    inset 0 0 14px rgba(255, 255, 255, 0.24),
+    0 0 0 2px rgba(121, 91, 38, 0.08),
+    0 8px 18px rgba(69, 54, 28, 0.12);
+  transition: opacity 500ms ease, transform 180ms ease, border-color 700ms ease, box-shadow 700ms ease, filter 700ms ease, background 700ms ease;
 }
 
 .drop-zone__inner img {
-  width: calc(100% - 5px);
-  height: calc(100% - 5px);
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
   border-radius: 50%;
   object-fit: cover;
+  overflow: hidden;
   box-shadow: 0 8px 16px rgba(45, 35, 20, 0.18);
+}
+
+.drop-zone.is-just-placed .drop-zone__inner img {
+  animation: medallionLand 720ms cubic-bezier(0.2, 0.9, 0.2, 1.2);
+}
+
+.drop-zone__success-ring {
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 228, 132, 0.86);
+  box-shadow: 0 0 18px rgba(255, 218, 93, 0.36);
+  animation: successRing 920ms ease-out forwards;
 }
 
 .drop-zone__dot {
   width: 18%;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: rgba(255, 249, 219, 0.48);
-  box-shadow: 0 0 0 5px rgba(255, 249, 219, 0.1);
+  background: rgba(255, 246, 202, 0.74);
+  box-shadow: 0 0 0 4px rgba(255, 224, 138, 0.14);
 }
 
 .drop-zone--locked .drop-zone__inner {
-  opacity: 0.18;
-  border-color: rgba(116, 112, 96, 0.42);
-  filter: grayscale(1);
-  box-shadow: none;
+  opacity: 0.34;
+  background: rgba(255, 250, 230, 0.14);
+  border-color: rgba(232, 215, 172, 0.54);
+  filter: none;
+  box-shadow: inset 0 0 10px rgba(255, 250, 230, 0.1), 0 4px 10px rgba(69, 54, 28, 0.06);
 }
 
 .drop-zone--available .drop-zone__inner {
@@ -955,25 +1011,81 @@ button {
 }
 
 .drop-zone--filled .drop-zone__inner {
-  background: rgba(255, 252, 237, 0.22);
-  border-color: rgba(255, 249, 219, 0.96);
-  box-shadow: 0 0 0 3px rgba(62, 159, 78, 0.14), 0 0 18px rgba(62, 159, 78, 0.36), 0 9px 18px rgba(67, 51, 27, 0.12);
+  background: rgba(255, 252, 237, 0.2);
+  border-color: rgba(255, 244, 190, 0.96);
+  box-shadow: 0 0 0 2px rgba(255, 224, 138, 0.14), 0 0 16px rgba(255, 218, 93, 0.22), 0 9px 18px rgba(67, 51, 27, 0.12);
+  transform: scale(1.16);
+}
+
+.drop-zone--filled:hover,
+.drop-zone--filled:focus-visible {
+  z-index: 8;
+}
+
+.drop-zone--filled:hover .drop-zone__inner,
+.drop-zone--filled:focus-visible .drop-zone__inner {
+  box-shadow: 0 0 0 3px rgba(255, 238, 154, 0.25), 0 0 28px rgba(255, 218, 93, 0.38), 0 14px 26px rgba(67, 51, 27, 0.16);
+  transform: scale(1.34);
 }
 
 .app--dead_waiting .drop-zone--available .drop-zone__inner,
 .app--resurrection_transition .drop-zone--available .drop-zone__inner {
-  background: rgba(225, 211, 184, 0.08);
-  border-color: rgba(224, 210, 181, 0.66);
-  box-shadow: 0 0 0 1px rgba(101, 82, 57, 0.1), 0 0 12px rgba(155, 120, 70, 0.16);
+  background: rgba(252, 239, 205, 0.2);
+  border-color: rgba(255, 230, 164, 0.78);
+  box-shadow:
+    inset 0 0 12px rgba(255, 250, 231, 0.16),
+    0 0 0 2px rgba(121, 91, 38, 0.08),
+    0 8px 18px rgba(69, 54, 28, 0.1);
 }
 
 .app--redeemed_alive .drop-zone--available .drop-zone__inner {
-  border-color: rgba(255, 249, 219, 0.94);
-  box-shadow: 0 0 0 3px rgba(255, 224, 138, 0.12), 0 0 20px rgba(255, 218, 93, 0.32);
+  background: rgba(255, 252, 231, 0.26);
+  border-color: rgba(255, 247, 205, 0.9);
+  box-shadow: 0 0 0 2px rgba(255, 224, 138, 0.12), 0 0 18px rgba(255, 218, 93, 0.22), 0 8px 18px rgba(69, 54, 28, 0.1);
 }
 
 .drop-zone.is-wrong {
   animation: wrongShake 420ms ease;
+}
+
+.question-popover {
+  position: absolute;
+  z-index: 9;
+  max-width: min(280px, 32vw);
+  min-width: 180px;
+  padding: 11px 14px 12px;
+  border: 2px solid rgba(255, 235, 159, 0.9);
+  border-radius: 16px;
+  background: rgba(255, 253, 239, 0.94);
+  color: #283229;
+  box-shadow: 0 16px 32px rgba(57, 47, 27, 0.18), 0 0 0 4px rgba(255, 224, 138, 0.12);
+  transform: translate(-50%, calc(-100% - 14px));
+  backdrop-filter: blur(12px);
+  pointer-events: none;
+  animation: questionPop 180ms ease-out;
+}
+
+.question-popover::after {
+  position: absolute;
+  left: 50%;
+  bottom: -9px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  border-right: 2px solid rgba(255, 235, 159, 0.9);
+  border-bottom: 2px solid rgba(255, 235, 159, 0.9);
+  background: rgba(255, 253, 239, 0.94);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.question-popover span {
+  position: relative;
+  z-index: 1;
+  display: block;
+  font-size: clamp(0.95rem, 1.18vw, 1.18rem);
+  font-weight: 900;
+  line-height: 1.4;
+  text-align: center;
 }
 
 .fall-transition,
@@ -983,6 +1095,32 @@ button {
   inset: 0;
   pointer-events: none;
   z-index: 7;
+}
+
+.fall-vignette,
+.fall-shadow-wave,
+.resurrection-wash,
+.trunk-light-stream {
+  position: absolute;
+  pointer-events: none;
+}
+
+.fall-vignette {
+  inset: -8%;
+  background: radial-gradient(circle at 50% 80%, transparent 0 16%, rgba(72, 61, 52, 0.22) 50%, rgba(62, 55, 50, 0.32) 100%);
+  opacity: 0;
+  animation: fallVignette 3000ms ease-out forwards;
+}
+
+.fall-shadow-wave {
+  left: 50%;
+  top: 80%;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(69, 58, 48, 0.34), rgba(69, 58, 48, 0.14) 42%, transparent 68%);
+  animation: fallShadowWave 3000ms ease-out forwards;
 }
 
 .fall-ripple {
@@ -1003,8 +1141,33 @@ button {
   width: 10px;
   height: 16px;
   border-radius: 70% 0 70% 0;
-  background: #8a6846;
+  background: linear-gradient(135deg, #b18a55, #765a3f);
+  box-shadow: 0 4px 8px rgba(63, 49, 34, 0.1);
   animation: leafFall 2500ms ease-in forwards;
+  transform-origin: 50% 30%;
+}
+
+.resurrection-wash {
+  inset: -8%;
+  opacity: 0;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(255, 255, 231, 0.78), rgba(255, 220, 104, 0.26) 25%, transparent 52%),
+    linear-gradient(180deg, rgba(255, 236, 153, 0.14), transparent 64%);
+  animation: resurrectionWash 5200ms ease 450ms forwards;
+}
+
+.trunk-light-stream {
+  left: 50%;
+  top: 22%;
+  width: 32px;
+  height: 72%;
+  border-radius: 999px;
+  transform: translateX(-50%) scaleY(0);
+  transform-origin: top;
+  background: linear-gradient(180deg, rgba(255, 252, 216, 0.9), rgba(255, 221, 93, 0.4) 46%, transparent);
+  filter: blur(7px);
+  opacity: 0;
+  animation: trunkLightStream 4300ms ease 700ms forwards;
 }
 
 .resurrection-wave {
@@ -1042,6 +1205,23 @@ button {
   background: #fff6bb;
   box-shadow: 0 0 14px #ffe17a;
   animation: lightTravel 3800ms ease-out forwards;
+}
+
+.branch-light-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.branch-light {
+  position: absolute;
+  height: 4px;
+  border-radius: 999px;
+  transform: rotate(var(--beam-angle)) scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(90deg, rgba(255, 255, 231, 0), rgba(255, 238, 149, 0.88), rgba(255, 255, 231, 0));
+  filter: blur(1px) drop-shadow(0 0 8px rgba(255, 220, 91, 0.72));
+  opacity: 0;
+  animation: branchLightTravel 2600ms ease-out forwards;
 }
 
 .cross-glow {
@@ -1171,10 +1351,31 @@ button {
 @keyframes placeholderPulse {
   0%,
   100% {
-    box-shadow: 0 0 0 1px rgba(116, 93, 49, 0.08), inset 0 0 18px rgba(255, 255, 255, 0.22), 0 0 0 0 rgba(255, 249, 219, 0.28);
+    border-color: rgba(255, 240, 178, 0.82);
+    box-shadow:
+      inset 0 0 14px rgba(255, 255, 255, 0.2),
+      0 0 0 2px rgba(121, 91, 38, 0.08),
+      0 8px 18px rgba(69, 54, 28, 0.1),
+      0 0 0 0 rgba(255, 244, 190, 0.18);
   }
   50% {
-    box-shadow: 0 0 0 1px rgba(116, 93, 49, 0.08), inset 0 0 22px rgba(255, 255, 255, 0.32), 0 0 0 7px rgba(255, 249, 219, 0);
+    border-color: rgba(255, 249, 215, 0.98);
+    box-shadow:
+      inset 0 0 18px rgba(255, 255, 255, 0.3),
+      0 0 0 2px rgba(121, 91, 38, 0.08),
+      0 8px 18px rgba(69, 54, 28, 0.1),
+      0 0 0 7px rgba(255, 244, 190, 0);
+  }
+}
+
+@keyframes questionPop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, calc(-100% - 6px)) scale(0.94);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, calc(-100% - 14px)) scale(1);
   }
 }
 
@@ -1222,14 +1423,18 @@ button {
 @keyframes leafFall {
   0% {
     opacity: 0;
-    transform: translateY(0) rotate(0deg);
+    transform: translateY(0) translateX(0) rotate(0deg) scale(var(--leaf-scale, 1));
   }
   12% {
     opacity: 1;
   }
+  44% {
+    opacity: 0.88;
+    transform: translateY(112px) translateX(var(--leaf-drift-mid, -12px)) rotate(var(--leaf-rotate, 136deg)) scale(var(--leaf-scale, 1));
+  }
   100% {
     opacity: 0;
-    transform: translateY(250px) translateX(-30px) rotate(136deg);
+    transform: translateY(270px) translateX(var(--leaf-drift, -30px)) rotate(var(--leaf-rotate, 136deg)) scale(var(--leaf-scale, 1));
   }
 }
 
@@ -1288,19 +1493,215 @@ button {
   }
 }
 
-@media (max-aspect-ratio: 4 / 3) {
-  .app {
-    grid-template-columns: 110px minmax(0, 1fr);
-    grid-template-areas: "tray tree";
-    gap: 7px;
-    padding: 8px;
+@keyframes treeAliveBreathe {
+  0%,
+  100% {
+    filter: saturate(1) brightness(1);
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    filter: saturate(1.08) brightness(1.03);
+    transform: translateY(-3px) scale(1.006);
+  }
+}
+
+@keyframes treeFallDim {
+  0% {
+    opacity: 0.9;
+    filter: saturate(1) brightness(1);
+    transform: scale(1);
+  }
+  45% {
+    opacity: 0.5;
+    filter: grayscale(0.62) sepia(0.18) brightness(0.9);
+  }
+  100% {
+    opacity: 0.18;
+    filter: grayscale(0.92) sepia(0.22) brightness(0.76);
+    transform: scale(0.996);
+  }
+}
+
+@keyframes redeemedTreeGlow {
+  0%,
+  100% {
+    filter: saturate(1.06) brightness(1.03) drop-shadow(0 0 0 rgba(255, 224, 126, 0));
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    filter: saturate(1.18) brightness(1.08) drop-shadow(0 0 24px rgba(255, 224, 126, 0.22));
+    transform: translateY(-4px) scale(1.008);
+  }
+}
+
+@keyframes leafSeatWake {
+  0% {
+    opacity: 0.28;
+    filter: brightness(1);
+  }
+  28% {
+    opacity: 0.72;
+    filter: brightness(1.3) drop-shadow(0 0 16px rgba(255, 230, 124, 0.46));
+  }
+  100% {
+    opacity: 0.28;
+    filter: brightness(1);
+  }
+}
+
+@keyframes medallionLand {
+  0% {
+    opacity: 0.82;
+    transform: scale(0.72);
+  }
+  54% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes successRing {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.82);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.45);
+  }
+}
+
+@keyframes fallVignette {
+  0% {
+    opacity: 0;
+  }
+  32% {
+    opacity: 0.72;
+  }
+  100% {
+    opacity: 0.34;
+  }
+}
+
+@keyframes fallShadowWave {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.35);
+  }
+  20% {
+    opacity: 0.74;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(13.5);
+  }
+}
+
+@keyframes resurrectionWash {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  18% {
+    opacity: 0.82;
+  }
+  66% {
+    opacity: 0.44;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes trunkLightStream {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scaleY(0);
+  }
+  18% {
+    opacity: 0.95;
+  }
+  74% {
+    opacity: 0.82;
+    transform: translateX(-50%) scaleY(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scaleY(1);
+  }
+}
+
+@keyframes branchLightTravel {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--beam-angle)) scaleX(0);
+  }
+  18% {
+    opacity: 0.9;
+  }
+  72% {
+    opacity: 0.55;
+    transform: rotate(var(--beam-angle)) scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--beam-angle)) scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tree-backdrop__image,
+  .environment-sun,
+  .environment-rays,
+  .environment-clouds,
+  .environment-dead-clouds,
+  .leaf-pad,
+  .drop-zone__inner,
+  .drop-zone__inner img,
+  .drop-zone__success-ring {
+    animation: none !important;
+    transition-duration: 120ms !important;
   }
 
+  .fall-leaf-particle,
+  .light-particle,
+  .branch-light,
+  .trunk-light-stream,
+  .fall-ripple,
+  .fall-shadow-wave,
+  .resurrection-wave,
+  .resurrection-light,
+  .resurrection-wash {
+    display: none;
+  }
+
+  .fall-vignette {
+    animation: none !important;
+    opacity: 0.2;
+  }
+}
+
+@media (max-aspect-ratio: 4 / 3) {
   .library-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .tree-frame {
-    height: 90vh;
+  .medallion-tray {
+    width: clamp(164px, 21vw, 198px);
+    padding: 10px;
+  }
+
+  .medallion-tray .medallion img {
+    width: clamp(72px, 10vw, 96px);
+  }
+
+  .question-popover {
+    max-width: min(250px, 44vw);
+    min-width: 160px;
   }
 }

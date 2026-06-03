@@ -9,6 +9,8 @@ export function FallTransition({ active }: FallTransitionProps) {
 
   return (
     <div className="fall-transition" aria-hidden="true">
+      <span className="fall-vignette" />
+      <span className="fall-shadow-wave" />
       <span className="fall-ripple" />
       <ParticleBurst variant="fall" active={active} />
     </div>

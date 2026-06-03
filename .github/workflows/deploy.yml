@@ -26,7 +26,7 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec tsc -b
-      - run: pnpm exec vite build --base=/tree-of-life/
+      - run: pnpm exec vite build
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

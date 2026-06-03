@@ -1,16 +1,18 @@
 import { dropZones } from "../data/dropZones";
 import { CrossGlow } from "./CrossGlow";
 import { LeafSupportLayer } from "./LeafSupportLayer";
+import type { DropZoneId } from "../data/dropZones";
 
 type SvgTreeProps = {
   stage: "creation_alive" | "fall_transition" | "dead_waiting" | "resurrection_transition" | "redeemed_alive";
+  lastPlacedId: DropZoneId | null;
 };
 
 const creationTree = new URL("../assets/tree/creation-tree.webp", import.meta.url).href;
 const deadTree = new URL("../assets/tree/dead-tree.webp", import.meta.url).href;
 const redeemedTree = new URL("../assets/tree/redeemed-tree.webp", import.meta.url).href;
 
-export function SvgTree({ stage }: SvgTreeProps) {
+export function SvgTree({ stage, lastPlacedId }: SvgTreeProps) {
   const showCreation = stage === "creation_alive";
   const showDead = stage === "fall_transition" || stage === "dead_waiting" || stage === "resurrection_transition";
   const showRedeemed = stage === "redeemed_alive";
@@ -58,7 +60,7 @@ export function SvgTree({ stage }: SvgTreeProps) {
 
         {stage === "fall_transition" && <circle className="svg-fall-pulse" cx="500" cy="800" r="28" />}
       </svg>
-      <LeafSupportLayer stage={stage} />
+      <LeafSupportLayer stage={stage} activeId={lastPlacedId} />
     </div>
   );
 }

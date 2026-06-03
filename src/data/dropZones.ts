@@ -28,6 +28,7 @@ export type DropZoneData = {
   unlockStage: TreeStage;
   stage: "creation" | "fall" | "old_testament" | "christ" | "resurrection" | "new_life";
   description: string;
+  question?: string;
   image: string;
 };
 
@@ -41,6 +42,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "creation_alive",
     stage: "creation",
     description: "آدم وحواء قبل السقوط",
+    question: "مين كانوا أول ناس ربنا خلقهم وحطهم في الجنة؟",
     image: "adam-eve.webp",
   },
   {
@@ -52,6 +54,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "creation_alive",
     stage: "fall",
     description: "آدم وحواء سمعوا كلام الحية وأكلوا من الثمرة",
+    question: "إيه الصورة اللي بتورينا لما آدم وحواء عصوا ربنا؟",
     image: "fall.webp",
   },
   {
@@ -63,6 +66,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "dead_waiting",
     stage: "old_testament",
     description: "نوح والفلك",
+    question: "مين بنى فلك كبير علشان ربنا ينقذ عيلته؟",
     image: "noah.webp",
   },
   {
@@ -74,6 +78,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "dead_waiting",
     stage: "old_testament",
     description: "إبراهيم ووعد ربنا",
+    question: "مين ربنا وعده إن من نسله هييجي بركة كبيرة؟",
     image: "abraham.webp",
   },
   {
@@ -85,6 +90,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "dead_waiting",
     stage: "old_testament",
     description: "يوسف في مصر",
+    question: "مين ربنا استخدمه في مصر علشان ينقذ ناس كتير؟",
     image: "joseph.webp",
   },
   {
@@ -96,6 +102,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "dead_waiting",
     stage: "old_testament",
     description: "موسى والوصايا",
+    question: "مين استلم الوصايا من ربنا؟",
     image: "moses.webp",
   },
   {
@@ -107,6 +114,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "dead_waiting",
     stage: "old_testament",
     description: "داود بالمزمار أو المقلاع",
+    question: "مين كان ملك وبيسبح ربنا بالمزمار؟",
     image: "david.webp",
   },
   {
@@ -118,6 +126,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "dead_waiting",
     stage: "old_testament",
     description: "يونان والحوت الكبير",
+    question: "مين كان جوه الحوت الكبير ورجع يسمع كلام ربنا؟",
     image: "jonah.webp",
   },
   {
@@ -129,6 +138,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "dead_waiting",
     stage: "christ",
     description: "يسوع المسيح",
+    question: "مين هو ابن ربنا اللي جه علشان يخلصنا؟",
     image: "jesus.webp",
   },
   {
@@ -140,6 +150,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "dead_waiting",
     stage: "christ",
     description: "يسوع على الصليب",
+    question: "فين صورة يسوع على الصليب؟",
     image: "crucifixion.webp",
   },
   {
@@ -151,6 +162,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "dead_waiting",
     stage: "resurrection",
     description: "القبر الفاضي أو المسيح القائم",
+    question: "فين صورة القيامة والقبر الفاضي؟",
     image: "resurrection.webp",
   },
   {
@@ -162,6 +174,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "redeemed_alive",
     stage: "new_life",
     description: "بطرس الرسول",
+    question: "مين الرسول اللي اسمه بطرس؟",
     image: "peter.webp",
   },
   {
@@ -173,6 +186,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "redeemed_alive",
     stage: "new_life",
     description: "بولس الرسول",
+    question: "مين الرسول اللي اسمه بولس؟",
     image: "paul.webp",
   },
   {
@@ -221,5 +235,10 @@ export const dropZones: DropZoneData[] = [
   },
 ];
 
-export const medallionImage = (image: string) =>
-  new URL(`../assets/medallions/${image}`, import.meta.url).href;
+const medallionImages = import.meta.glob<string>("../assets/medallions/*.webp", {
+  eager: true,
+  import: "default",
+  query: "?url",
+});
+
+export const medallionImage = (image: string) => medallionImages[`../assets/medallions/${image}`] ?? "";

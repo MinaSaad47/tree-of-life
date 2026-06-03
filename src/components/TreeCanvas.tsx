@@ -12,16 +12,33 @@ type TreeCanvasProps = {
   currentStage: TreeStage;
   placed: Partial<Record<DropZoneId, DropZoneId>>;
   wrongZoneId: DropZoneId | null;
+  lastPlacedId: DropZoneId | null;
+  activeQuestionZoneId: DropZoneId | null;
   selectedId: DropZoneId | null;
+  onQuestion: (zoneId: DropZoneId | null) => void;
   onPlace: (draggedId: DropZoneId, zoneId: DropZoneId) => void;
 };
 
-export function TreeCanvas({ visualStage, currentStage, placed, wrongZoneId, selectedId, onPlace }: TreeCanvasProps) {
+export function TreeCanvas({
+  visualStage,
+  currentStage,
+  placed,
+  wrongZoneId,
+  lastPlacedId,
+  activeQuestionZoneId,
+  selectedId,
+  onQuestion,
+  onPlace,
+}: TreeCanvasProps) {
+  const activeQuestionZone = activeQuestionZoneId
+    ? dropZones.find((zone) => zone.id === activeQuestionZoneId && zone.question)
+    : undefined;
+
   return (
     <main className="tree-stage" aria-label="مكان شجرة الخلاص">
       <div className="tree-frame">
         <EnvironmentLayer stage={visualStage} />
-        <SvgTree stage={visualStage} />
+        <SvgTree stage={visualStage} lastPlacedId={lastPlacedId} />
         <div className="drop-zone-layer">
           {dropZones.map((zone) => {
             const placedId = placed[zone.id];
@@ -35,11 +52,26 @@ export function TreeCanvas({ visualStage, currentStage, placed, wrongZoneId, sel
                 placedId={placedId}
                 selectedId={selectedId}
                 isWrong={wrongZoneId === zone.id}
+                isJustPlaced={lastPlacedId === zone.id}
+                onQuestion={onQuestion}
                 onPlace={onPlace}
               />
             );
           })}
         </div>
+        {activeQuestionZone?.question && !placed[activeQuestionZone.id] && (
+          <div
+            className="question-popover"
+            style={{
+              left: `${activeQuestionZone.x}%`,
+              top: `${activeQuestionZone.y}%`,
+            }}
+            role="status"
+            aria-live="polite"
+          >
+            <span>{activeQuestionZone.question}</span>
+          </div>
+        )}
         <FallTransition active={visualStage === "fall_transition"} />
         <ResurrectionTransition active={visualStage === "resurrection_transition"} />
       </div>

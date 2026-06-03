@@ -29,6 +29,9 @@ function App() {
   const [placed, setPlaced] = useState<Partial<Record<DropZoneId, DropZoneId>>>({});
   const [selectedId, setSelectedId] = useState<DropZoneId | null>(null);
   const [wrongZoneId, setWrongZoneId] = useState<DropZoneId | null>(null);
+  const [lastPlacedId, setLastPlacedId] = useState<DropZoneId | null>(null);
+  const [activeQuestionZoneId, setActiveQuestionZoneId] = useState<DropZoneId | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const [dragState, setDragState] = useState<DragState | null>(null);
   const timersRef = useRef<number[]>([]);
   const dragStateRef = useRef<DragState | null>(null);
@@ -50,6 +53,12 @@ function App() {
   const markWrong = (zoneId: DropZoneId) => {
     setWrongZoneId(zoneId);
     const timer = window.setTimeout(() => setWrongZoneId(null), 620);
+    timersRef.current.push(timer);
+  };
+
+  const markPlaced = (zoneId: DropZoneId) => {
+    setLastPlacedId(zoneId);
+    const timer = window.setTimeout(() => setLastPlacedId(null), 1100);
     timersRef.current.push(timer);
   };
 
@@ -82,6 +91,8 @@ function App() {
 
       setPlaced((existing) => ({ ...existing, [zoneId]: draggedId }));
       setSelectedId(null);
+      setActiveQuestionZoneId(null);
+      markPlaced(zoneId);
 
       if (zoneId === "fall") triggerFall();
       if (zoneId === "resurrection") triggerResurrection();
@@ -95,7 +106,23 @@ function App() {
     setPlaced({});
     setSelectedId(null);
     setWrongZoneId(null);
+    setLastPlacedId(null);
+    setActiveQuestionZoneId(null);
     updateDragState(null);
+  };
+
+  const toggleFullscreen = () => {
+    if (document.fullscreenElement) {
+      void document.exitFullscreen();
+      return;
+    }
+
+    void document.documentElement.requestFullscreen();
+  };
+
+  const selectMedallion = (id: DropZoneId) => {
+    setActiveQuestionZoneId(null);
+    setSelectedId(id);
   };
 
   const beginMedallionPointer = useCallback(
@@ -104,6 +131,7 @@ function App() {
 
       event.preventDefault();
       setSelectedId(null);
+      setActiveQuestionZoneId(null);
       updateDragState({
         id,
         startX: event.clientX,
@@ -138,6 +166,7 @@ function App() {
 
       if (!current.active) {
         setSelectedId(current.id);
+        setActiveQuestionZoneId(null);
         return;
       }
 
@@ -155,6 +184,17 @@ function App() {
     };
   }, [placeMedallion, updateDragState]);
 
+  useEffect(() => {
+    const handleFullscreenChange = () => setIsFullscreen(Boolean(document.fullscreenElement));
+
+    handleFullscreenChange();
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, []);
+
   if (!hasStarted) {
     return <StartPage onStart={() => setHasStarted(true)} />;
   }
@@ -165,7 +205,7 @@ function App() {
         currentStage={currentStage}
         placedIds={placedIds}
         selectedId={selectedId}
-        onSelect={setSelectedId}
+        onSelect={selectMedallion}
         onPointerStart={beginMedallionPointer}
       />
       <TreeCanvas
@@ -173,10 +213,18 @@ function App() {
         currentStage={currentStage}
         placed={placed}
         wrongZoneId={wrongZoneId}
+        lastPlacedId={lastPlacedId}
+        activeQuestionZoneId={activeQuestionZoneId}
         selectedId={selectedId}
+        onQuestion={setActiveQuestionZoneId}
         onPlace={placeMedallion}
       />
-      <FloatingResetButton disabled={isTransitioning} onReset={reset} />
+      <FloatingResetButton
+        disabled={isTransitioning}
+        isFullscreen={isFullscreen}
+        onReset={reset}
+        onToggleFullscreen={toggleFullscreen}
+      />
       {dragState?.active && <DragPreview id={dragState.id} x={dragState.x} y={dragState.y} />}
     </div>
   );

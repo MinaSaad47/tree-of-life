@@ -148,12 +148,7 @@ button {
 }
 
 .medallion-tray {
-  position: fixed;
-  direction: rtl;
-  inset-inline-start: clamp(10px, 1.3vw, 22px);
-  top: 50%;
-  z-index: 18;
-  width: clamp(174px, 14vw, 226px);
+  width: clamp(200px, 18vw, 280px);
   max-height: min(92vh, 820px);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.42);
@@ -161,11 +156,83 @@ button {
   background: rgba(255, 255, 255, 0.2);
   box-shadow: 0 20px 42px rgba(49, 64, 50, 0.12);
   backdrop-filter: blur(18px);
-  padding: 12px;
+  padding: 20px 16px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.medallion-sidebar {
+  position: fixed;
+  direction: rtl;
+  inset-inline-start: clamp(10px, 1.3vw, 22px);
+  top: 50%;
+  z-index: 18;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
   transform: translateY(-50%);
+}
+
+.medallion-preview {
+  --tray-offset: clamp(10px, 1.3vw, 22px);
+  --tray-width: clamp(200px, 18vw, 280px);
+  --sidebar-gap: 12px;
+  position: fixed;
+  direction: rtl;
+  z-index: 19;
+  inset-inline-start: calc(var(--tray-offset) + var(--tray-width) + var(--sidebar-gap));
+  top: 50%;
+  width: min(560px, 55vw);
+  pointer-events: none;
+  animation: previewIn 200ms ease-out both;
+  transform-origin: var(--preview-origin, top right);
+}
+
+.medallion-preview__card {
+  background: rgba(255, 253, 242, 0.96);
+  backdrop-filter: blur(8px);
+  border: 2px solid rgba(255, 235, 164, 0.9);
+  border-radius: 28px;
+  padding: 28px;
+  box-shadow:
+    0 0 0 3px rgba(255, 224, 138, 0.2),
+    0 24px 48px rgba(40, 32, 16, 0.2);
+  display: grid;
+  place-items: center;
+  gap: 14px;
+  transform: translateY(-50%);
+  max-height: min(92vh, 700px);
+  overflow-y: auto;
+}
+
+.medallion-preview__card img {
+  width: 100%;
+  aspect-ratio: 1;
+  max-height: 520px;
+  object-fit: cover;
+  border-radius: 20px;
+  border: 3px solid rgba(255, 235, 164, 0.8);
+  box-shadow: 0 4px 16px rgba(56, 44, 22, 0.12);
+}
+
+.medallion-preview__card span {
+  font-size: clamp(1rem, 1.4vw, 1.3rem);
+  font-weight: 900;
+  color: #263027;
+  text-align: center;
+  line-height: 1.3;
+}
+
+@keyframes previewIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .sidebar--right {
@@ -353,7 +420,7 @@ button {
 }
 
 .medallion-tray .medallion img {
-  width: clamp(82px, 8vw, 112px);
+  width: clamp(50px, 4.5vw, 64px);
   border: 3px solid rgba(255, 235, 164, 0.88);
   box-shadow: 0 8px 18px rgba(74, 56, 24, 0.14);
   transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
@@ -363,7 +430,6 @@ button {
 .medallion-tray .medallion.is-selected img {
   border-color: #fff3a7;
   box-shadow: 0 0 0 4px rgba(255, 224, 138, 0.32), 0 0 28px rgba(255, 218, 93, 0.6);
-  transform: translateY(-3px) scale(1.25);
 }
 
 .medallion span {
@@ -1051,15 +1117,15 @@ button {
 .question-popover {
   position: absolute;
   z-index: 9;
-  max-width: min(280px, 32vw);
-  min-width: 180px;
-  padding: 11px 14px 12px;
+  max-width: min(360px, 40vw);
+  min-width: 220px;
+  padding: 16px 20px 18px;
   border: 2px solid rgba(255, 235, 159, 0.9);
-  border-radius: 16px;
-  background: rgba(255, 253, 239, 0.94);
+  border-radius: 20px;
+  background: rgba(255, 253, 239, 0.96);
   color: #283229;
   box-shadow: 0 16px 32px rgba(57, 47, 27, 0.18), 0 0 0 4px rgba(255, 224, 138, 0.12);
-  transform: translate(-50%, calc(-100% - 14px));
+  transform: translate(-50%, calc(-100% - 18px));
   backdrop-filter: blur(12px);
   pointer-events: none;
   animation: questionPop 180ms ease-out;
@@ -1068,13 +1134,13 @@ button {
 .question-popover::after {
   position: absolute;
   left: 50%;
-  bottom: -9px;
-  width: 16px;
-  height: 16px;
+  bottom: -10px;
+  width: 18px;
+  height: 18px;
   content: "";
   border-right: 2px solid rgba(255, 235, 159, 0.9);
   border-bottom: 2px solid rgba(255, 235, 159, 0.9);
-  background: rgba(255, 253, 239, 0.94);
+  background: rgba(255, 253, 239, 0.96);
   transform: translateX(-50%) rotate(45deg);
 }
 
@@ -1082,9 +1148,9 @@ button {
   position: relative;
   z-index: 1;
   display: block;
-  font-size: clamp(0.95rem, 1.18vw, 1.18rem);
+  font-size: clamp(1.1rem, 1.4vw, 1.4rem);
   font-weight: 900;
-  line-height: 1.4;
+  line-height: 1.5;
   text-align: center;
 }
 
@@ -1692,16 +1758,20 @@ button {
   }
 
   .medallion-tray {
-    width: clamp(164px, 21vw, 198px);
-    padding: 10px;
+    width: clamp(180px, 26vw, 250px);
+    padding: 14px 12px;
   }
 
   .medallion-tray .medallion img {
-    width: clamp(72px, 10vw, 96px);
+    width: clamp(46px, 6.5vw, 58px);
+  }
+
+  .medallion-preview {
+    width: min(460px, 60vw);
   }
 
   .question-popover {
-    max-width: min(250px, 44vw);
-    min-width: 160px;
+    max-width: min(300px, 50vw);
+    min-width: 190px;
   }
 }

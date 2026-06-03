@@ -42,7 +42,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "creation_alive",
     stage: "creation",
     description: "آدم وحواء قبل السقوط",
-    question: "مين كانوا أول ناس ربنا خلقهم وحطهم في الجنة؟",
+    question: "مين أول ناس ربنا خلقهم على الأرض؟",
     image: "adam-eve.webp",
   },
   {
@@ -54,7 +54,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "creation_alive",
     stage: "fall",
     description: "آدم وحواء سمعوا كلام الحية وأكلوا من الثمرة",
-    question: "إيه الصورة اللي بتورينا لما آدم وحواء عصوا ربنا؟",
+    question: "مين خدع آدم وحواء وخلاهم يعصوا ربنا؟",
     image: "fall.webp",
   },
   {
@@ -78,7 +78,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "dead_waiting",
     stage: "old_testament",
     description: "إبراهيم ووعد ربنا",
-    question: "مين ربنا وعده إن من نسله هييجي بركة كبيرة؟",
+    question: "مين ربنا طلب منه يقدم ابنه ذبيحة؟",
     image: "abraham.webp",
   },
   {
@@ -90,7 +90,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "dead_waiting",
     stage: "old_testament",
     description: "يوسف في مصر",
-    question: "مين ربنا استخدمه في مصر علشان ينقذ ناس كتير؟",
+    question: "مين بقى وزير على مصر؟",
     image: "joseph.webp",
   },
   {
@@ -102,7 +102,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "dead_waiting",
     stage: "old_testament",
     description: "موسى والوصايا",
-    question: "مين استلم الوصايا من ربنا؟",
+    question: "مين ربنا استخدمه عشان يشق البحر الأحمر؟",
     image: "moses.webp",
   },
   {
@@ -114,7 +114,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "dead_waiting",
     stage: "old_testament",
     description: "داود بالمزمار أو المقلاع",
-    question: "مين كان ملك وبيسبح ربنا بالمزمار؟",
+    question: "مين كان ملك وكان بيعزف على القيثارة؟",
     image: "david.webp",
   },
   {
@@ -126,7 +126,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "dead_waiting",
     stage: "old_testament",
     description: "يونان والحوت الكبير",
-    question: "مين كان جوه الحوت الكبير ورجع يسمع كلام ربنا؟",
+    question: "مين هرب من ربنا وركب السفينة؟",
     image: "jonah.webp",
   },
   {
@@ -138,7 +138,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "dead_waiting",
     stage: "christ",
     description: "يسوع المسيح",
-    question: "مين هو ابن ربنا اللي جه علشان يخلصنا؟",
+    question: "مين هو ابن الله؟",
     image: "jesus.webp",
   },
   {
@@ -150,7 +150,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "dead_waiting",
     stage: "christ",
     description: "يسوع على الصليب",
-    question: "فين صورة يسوع على الصليب؟",
+    question: "فين تمت ذبيحة الفداء؟",
     image: "crucifixion.webp",
   },
   {
@@ -162,7 +162,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "dead_waiting",
     stage: "resurrection",
     description: "القبر الفاضي أو المسيح القائم",
-    question: "فين صورة القيامة والقبر الفاضي؟",
+    question: "مين قام من الموت بعد 3 أيام؟",
     image: "resurrection.webp",
   },
   {
@@ -174,7 +174,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "redeemed_alive",
     stage: "new_life",
     description: "بطرس الرسول",
-    question: "مين الرسول اللي اسمه بطرس؟",
+    question: "مين آمن على إيده 3000 شخص في يوم واحد؟",
     image: "peter.webp",
   },
   {
@@ -186,7 +186,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "redeemed_alive",
     stage: "new_life",
     description: "بولس الرسول",
-    question: "مين الرسول اللي اسمه بولس؟",
+    question: "مين كتب 14 رسالة في العهد الجديد؟",
     image: "paul.webp",
   },
   {
@@ -198,6 +198,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "redeemed_alive",
     stage: "new_life",
     description: "الرسل مع بعض",
+    question: "مين نزل عليهم الروح القدس يوم الخمسين؟",
     image: "apostles.webp",
   },
   {
@@ -209,6 +210,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "redeemed_alive",
     stage: "new_life",
     description: "الكنيسة الأولى",
+    question: "إيه اسم أول جماعة من المؤمنين بالمسيح؟",
     image: "early-church.webp",
   },
   {
@@ -220,6 +222,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "redeemed_alive",
     stage: "new_life",
     description: "الشهداء والقديسين",
+    question: "مين ضحوا بحياتهم من أجل المسيح؟",
     image: "martyrs-saints.webp",
   },
   {
@@ -231,6 +234,7 @@ export const dropZones: DropZoneData[] = [
     unlockStage: "redeemed_alive",
     stage: "new_life",
     description: "أولاد وعائلات مسيحية النهارده",
+    question: "مين بيشهد للمسيح في العالم النهارده؟",
     image: "modern-believers.webp",
   },
 ];

@@ -7,6 +7,8 @@ type MedallionProps = {
   draggable?: boolean;
   onSelect?: (id: DropZoneId) => void;
   onPointerStart?: (id: DropZoneId, event: React.PointerEvent<HTMLButtonElement>) => void;
+  onHover?: (id: DropZoneId) => void;
+  onHoverEnd?: () => void;
 };
 
 export function Medallion({
@@ -16,6 +18,8 @@ export function Medallion({
   draggable = false,
   onSelect,
   onPointerStart,
+  onHover,
+  onHoverEnd,
 }: MedallionProps) {
   const isSelected = selectedId === item.id;
 
@@ -32,6 +36,8 @@ export function Medallion({
       onDragStart={(event) => {
         event.preventDefault();
       }}
+      onMouseEnter={() => onHover?.(item.id)}
+      onMouseLeave={() => onHoverEnd?.()}
       aria-label={`${item.label}: ${item.description}`}
       title={item.description}
     >
